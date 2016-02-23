@@ -96,5 +96,52 @@
           $GLOBALS['DB']->exec("DELETE FROM animal;");
         }
 
+        static function find($search_id)
+        {
+            $found_animal = null;
+            $animals = Animal::getAll();
+            foreach($animals as $animal) {
+                $animal_id = $animal->getId();
+                if ($animal_id == $search_id) {
+                    $found_animal = $animal;
+                }
+            }
+            return $found_animal;
+        }
+
+        static function alphabetize()
+        {
+            $alphabetized_animals = $GLOBALS['DB']->query("SELECT * FROM animal ORDER BY name;");
+            $alphabetized_array = array();
+            foreach ($alphabetized_animals as $animal) {
+                $name = $animal['name'];
+                $gender = $animal['gender'];
+                $date_admitted = $animal['date_admitted'];
+                $breed = $animal['breed'];
+                $id = $animal['id'];
+                $type_id = $animal['type_id'];
+                $new_animal = new Animal($name, $gender, $date_admitted, $breed, $type_id, $id);
+                array_push($alphabetized_array, $new_animal);
+            }
+            return $alphabetized_array;
+        }
+
+        static function orderByDateAdmitted()
+        {
+            $date_admitted_animals = $GLOBALS['DB']->query("SELECT * FROM animal ORDER BY date_admitted;");
+            $dated_array = array();
+            foreach ($date_admitted_animals as $animal) {
+                $name = $animal['name'];
+                $gender = $animal['gender'];
+                $date_admitted = $animal['date_admitted'];
+                $breed = $animal['breed'];
+                $id = $animal['id'];
+                $type_id = $animal['type_id'];
+                $new_animal = new Animal($name, $gender, $date_admitted, $breed, $type_id, $id);
+                array_push($dated_array, $new_animal);
+            }
+            return $dated_array;
+        }
+
     }
  ?>
