@@ -23,7 +23,7 @@
         function test_getType()
         {
             //Arrange
-            $type = "Cat";
+            $type = "cat";
             $test_Type = new AnimalType($type);
 
             //Act
@@ -31,6 +31,51 @@
 
             //Assert
             $this->assertEquals($type, $result);
+        }
+
+        function test_getId()
+        {
+            //arrange
+            $type = "cat";
+            $id = 1;
+            $test_Type = new AnimalType($type, $id);
+
+            //Act
+            $result = $test_Type->getId();
+
+            //assert
+            $this->assertEquals(true, is_numeric($result));
+        }
+
+        function test_save()
+        {
+            //arrange
+            $type = "cat";
+            $test_Type = new AnimalType($type);
+            $test_Type->save();
+
+            //Act
+            $result = AnimalType::getAll();
+
+            //assert
+            $this->assertEquals($test_Type, $result[0]);
+        }
+
+        function test_getAll()
+        {
+            //Arrange
+            $type = "cat";
+            $type2 = "dog";
+            $test_Type = new AnimalType($type);
+            $test_Type->save();
+            $test_Type2 = new AnimalType($type2);
+            $test_Type2->save();
+
+            //Act
+            $result = AnimalType::getAll();
+
+            //Assert
+            $this->assertEquals([], $result);
         }
     }
  ?>

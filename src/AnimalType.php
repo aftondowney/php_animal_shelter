@@ -34,7 +34,15 @@
 
         static function getAll()
         {
-
+            $returned_type = $GLOBALS['DB']->query("SELECT * FROM animal_type;");
+            $types = array();
+            foreach($returned_type as $animal_type) {
+                $type = $animal_type['type'];
+                $id = $animal_type['id'];
+                $new_type = new AnimalType($type, $id);
+                array_push($animal_type, $new_type);
+            }
+            return $types;
         }
     }
 
