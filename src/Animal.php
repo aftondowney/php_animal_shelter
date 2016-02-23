@@ -70,7 +70,31 @@
 
         function save()
         {
-            
+            $GLOBALS['DB']->exec("INSERT INTO animal (name, gender, date_admitted, breed, type_id) VALUES ('{$this->getName()}', '{$this->getGender()}', '{$this->getDateAdmitted()}', '{$this->getBreed()}', '{$this->getTypeId()}')");
+            $this->id = $GLOBALS['DB']->lastInsertId();
         }
+
+        static function getAll()
+        {
+            $returned_animals = $GLOBALS['DB']->query("SELECT * FROM animal;");
+            $animals = array();
+            foreach ($returned_animals as $animal) {
+                $name = $animal['name'];
+                $gender = $animal['gender'];
+                $date_admitted = $animal['date_admitted'];
+                $breed = $animal['breed'];
+                $id = $animal['id'];
+                $type_id = $animal['type_id'];
+                $new_animal = new Animal($name, $gender, $date_admitted, $breed, $type_id, $id);
+                array_push($animals, $new_animal);
+            }
+            return $animals;
+        }
+
+        static function deleteAll()
+        {
+          $GLOBALS['DB']->exec("DELETE FROM animal;");
+        }
+
     }
  ?>

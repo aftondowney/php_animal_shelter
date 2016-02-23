@@ -12,13 +12,13 @@
     $password = 'root';
     $DB = new PDO($server, $username, $password);
 
-    class AnimalTest extends PHPUnit_Framework_TestCase
+    class AnimalTypeTest extends PHPUnit_Framework_TestCase
     {
-        // protected function tearDown()
-        // {
-        //     Animal::deleteAll();
-        //     AnimalType::deleteAll();
-        // }
+        protected function tearDown()
+        {
+            Animal::deleteAll();
+            AnimalType::deleteAll();
+        }
 
         function test_getType()
         {
@@ -75,7 +75,43 @@
             $result = AnimalType::getAll();
 
             //Assert
+            $this->assertEquals([$test_Type, $test_Type2], $result);
+        }
+
+        function test_deleteAll()
+        {
+            //Arrange
+            $type = "cat";
+            $type2 = "dog";
+            $test_Type = new AnimalType($type);
+            $test_Type->save();
+            $test_Type2 = new AnimalType($type2);
+            $test_Type2->save();
+
+            //Act
+            AnimalType::deleteAll();
+            $result = AnimalType::getAll();
+
+            //Assert
             $this->assertEquals([], $result);
+
+        }
+
+        function test_find()
+        {
+            //arrange
+            $type = "cat";
+            $type2 = "dog";
+            $test_Type = new AnimalType($type);
+            $test_Type->save();
+            $test_Type2 = new AnimalType($type2);
+            $test_Type2->save();
+
+            //Act
+            $result = AnimalType::find($test_Type->getId());
+
+            //assert
+            $this->assertEquals($test_Type, $result);
         }
     }
  ?>
