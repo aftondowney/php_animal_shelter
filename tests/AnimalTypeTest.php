@@ -113,5 +113,35 @@
             //assert
             $this->assertEquals($test_Type, $result);
         }
+
+        function test_getAnimals()
+        {
+            //Arrange
+            $type = "cat";
+            $id = null;
+            $test_Type = new AnimalType($type, $id);
+            $test_Type->save();
+
+            $name = "Skittles";
+            $gender = "female";
+            $date_admitted = "2015-08-03";
+            $breed = "calico";
+            $type_id = $test_Type->getId();
+            $test_animal = new Animal($name, $gender, $date_admitted, $breed, $type_id, $id);
+            $test_animal->save();
+
+            $name2 = "Chairman Meow";
+            $gender2 = "male";
+            $date_admitted2 = "2015-08-10";
+            $breed2 = "siamese";
+            $test_animal2 = new Animal($name2, $gender2, $date_admitted2, $breed2, $type_id, $id);
+            $test_animal2->save();
+
+            //Act
+            $result = $test_Type->getAnimals();
+
+            //Assert
+            $this->assertEquals([$test_animal, $test_animal2], $result);
+        }
     }
  ?>

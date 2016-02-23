@@ -62,6 +62,23 @@
             }
             return $found_type;
         }
+
+        function getAnimals()
+        {
+            $animals = Array();
+            $returned_animals = $GLOBALS['DB']->query("SELECT * FROM  animal WHERE type_id = {$this->getId()};");
+            foreach($returned_animals as $animal) {
+                $name = $animal['name'];
+                $gender = $animal['gender'];
+                $date_admitted = $animal['date_admitted'];
+                $breed = $animal['breed'];
+                $id = $animal['id'];
+                $type_id = $animal['type_id'];
+                $new_animal = new Animal($name, $gender, $date_admitted, $breed, $type_id, $id);
+                array_push($animals, $new_animal);
+            }
+            return $animals;
+        }
     }
 
 
